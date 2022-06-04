@@ -8,18 +8,19 @@ import {
 } from '../styled/Game';
 import { Strong } from '../styled/Shared';
 
-const MAX_SECONDS = 5;
+const MAX_SECONDS = 50;
+const CHARACTERS = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
 function Game() {
   const [score, setScore] = useState(0);
   const [ms, setMs] = useState(999);
   const [seconds, setSeconds] = useState(MAX_SECONDS);
+  const [currentCharacter, setCurrentCharacter] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (seconds <= -1) {
-      console.log('game over')
       navigate('/gameOver');
     }
   }, [seconds, ms, navigate]);
@@ -53,7 +54,13 @@ function Game() {
     return (zeros + str).slice(-length);
   };
 
+  const setRandomCharacter = () => {
+    const randomInt = Math.floor(Math.random() * 36);
+    setCurrentCharacter(CHARACTERS[randomInt]);
+  };
+
   useEffect(() => {
+    setRandomCharacter();
     const currentTime = new Date();
     const interval = setInterval(() => updateTime(currentTime), 1);
     return () => {
@@ -62,23 +69,30 @@ function Game() {
 
   }, [updateTime]);
 
-  useEffect(() => {
-    const keyUpHandler = (e) => {
-      console.log(e.key);
-    };
+  const keyUpHandler = useCallback((e) => {
+    if (e.key === currentCharacter) {
+      setScore(score + 1);
+    } else {
+      if (score > 0) {
+        setScore(score - 1);
+      }
+    }
+    setRandomCharacter();
+  }, [currentCharacter, score]);
 
+  useEffect(() => {
     document.addEventListener('keyup', keyUpHandler);
     return () => {
       document.removeEventListener('keyup', keyUpHandler);
     };
-  }, []);
+  }, [keyUpHandler]);
 
   return (
     <StyledGame>
       <StyledScore>
         Score: <Strong>{score}</Strong>
       </StyledScore>
-      <StyledCharacter>A</StyledCharacter>
+      <StyledCharacter>{currentCharacter}</StyledCharacter>
       <StyledTimer>
         Time:{' '}
         <Strong>
