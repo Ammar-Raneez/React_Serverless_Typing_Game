@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useScore } from '../contexts/ScoreContext';
 import {
   StyledCharacter,
   StyledGame,
@@ -8,11 +9,11 @@ import {
 } from '../styled/Game';
 import { Strong } from '../styled/Shared';
 
-const MAX_SECONDS = 50;
+const MAX_SECONDS = 5;
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
 function Game() {
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useScore(0);
   const [ms, setMs] = useState(999);
   const [seconds, setSeconds] = useState(MAX_SECONDS);
   const [currentCharacter, setCurrentCharacter] = useState('');
@@ -61,13 +62,14 @@ function Game() {
 
   useEffect(() => {
     setRandomCharacter();
+    setScore(0);
     const currentTime = new Date();
     const interval = setInterval(() => updateTime(currentTime), 1);
     return () => {
       clearInterval(interval);
     };
 
-  }, [updateTime]);
+  }, [setScore, updateTime]);
 
   const keyUpHandler = useCallback((e) => {
     if (e.key === currentCharacter) {
@@ -78,7 +80,7 @@ function Game() {
       }
     }
     setRandomCharacter();
-  }, [currentCharacter, score]);
+  }, [currentCharacter, score, setScore]);
 
   useEffect(() => {
     document.addEventListener('keyup', keyUpHandler);
