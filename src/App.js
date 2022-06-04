@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Navbar from './components/Navbar';
 import Game from './pages/Game';
 import GameOver from './pages/GameOver';
 import HighScores from './pages/HighScores';
@@ -8,6 +9,7 @@ import Home from './pages/Home';
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/game" element={<Game />} />
         <Route path="/highScores" element={<HighScores />} />
