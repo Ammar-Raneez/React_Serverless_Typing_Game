@@ -1,4 +1,4 @@
-const { table } = require('./utils/airtable');
+const { table, getHighScores } = require('./utils/airtable');
 
 module.exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -17,18 +17,8 @@ module.exports.handler = async (event) => {
   }
 
   try {
-    const records = await table
-      .select({
-        sort: [{ field: 'score', direction: 'desc' }],
-      })
-      .firstPage();
-
     // Formatted records in order of scores
-    const formattedRecords = records.map((record) => ({
-      id: record.id,
-      fields: record.fields,
-    }));
-
+    const formattedRecords = await getHighScores();
     const lowestRecord = formattedRecords[formattedRecords.length - 1];
     if (
       typeof lowestRecord.fields.score === 'undefined' ||

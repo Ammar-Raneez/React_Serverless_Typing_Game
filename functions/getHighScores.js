@@ -1,18 +1,8 @@
-const { table } = require('./utils/airtable');
+const { getHighScores } = require('./utils/airtable');
 
 module.exports.handler = async () => {
   try {
-    const records = await table
-      .select({
-        filterByFormula: `AND(name != "", score > 0)`,
-        sort: [{ field: 'score', direction: 'desc' }],
-      })
-      .firstPage();
-    const formattedRecords = records.map((record) => ({
-      id: record.id,
-      fields: record.fields,
-    }))
-
+    const formattedRecords = await getHighScores(true);
     return {
       statusCode: 200,
       body: JSON.stringify(formattedRecords),
