@@ -1,3 +1,7 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fba98b30-18ab-4aa2-97cb-1a4a43b50c3d/deploy-status)](https://app.netlify.com/sites/react-serverless-typing-game/deploys)
+
+# React Serverless typing Game with Netlify Functions & Airtable
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
