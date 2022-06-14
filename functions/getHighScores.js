@@ -1,14 +1,6 @@
-const Airtable = require('airtable');
-require('dotenv').config();
+const { table } = require('./utils/airtable');
 
-Airtable.configure({
-  apiKey: process.env.AIRTABLE_API_KEY,
-});
-
-const base = Airtable.base(process.env.AIRTABLE_BASE);
-const table = base.table(process.env.AIRTABLE_TABLE);
-
-module.exports.handler = async (event) => {
+module.exports.handler = async () => {
   try {
     const records = await table.select({ fields: ['name'] }).firstPage();
     const formattedRecords = records.map((record) => ({
