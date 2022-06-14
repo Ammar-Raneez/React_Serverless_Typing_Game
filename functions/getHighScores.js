@@ -3,7 +3,10 @@ const { table } = require('./utils/airtable');
 module.exports.handler = async () => {
   try {
     const records = await table
-      .select({ filterByFormula: `AND(name != "", score > 0)` })
+      .select({
+        filterByFormula: `AND(name != "", score > 0)`,
+        sort: [{ field: 'score', direction: 'desc' }],
+      })
       .firstPage();
     const formattedRecords = records.map((record) => ({
       id: record.id,

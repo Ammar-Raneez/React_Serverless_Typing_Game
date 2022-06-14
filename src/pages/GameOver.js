@@ -17,7 +17,7 @@ function GameOver() {
       <h1>Game Over</h1>
       <p>{score}</p>
       <StyledLink to="/">Go Home</StyledLink>
-      <StyledLink to="/game">Play Again?</StyledLink>
+      <StyledLink to="/game">{' '}Play Again?</StyledLink>
     </div>
   );
 }
