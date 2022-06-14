@@ -30,7 +30,6 @@ module.exports.handler = async (event) => {
     }));
 
     const lowestRecord = formattedRecords[formattedRecords.length - 1];
-    console.log(lowestRecord, score);
     if (
       typeof lowestRecord.fields.score === 'undefined' ||
       score > lowestRecord.fields.score
