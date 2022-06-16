@@ -1,12 +1,13 @@
 const { table, getHighScores } = require('./utils/airtable');
-const { getAccessTokenFromHeaders } = require('./utils/auth');
+const { getAccessTokenFromHeaders, validateAccessToken } = require('./utils/auth');
 
 module.exports.handler = async (event) => {
   const token = getAccessTokenFromHeaders(event.headers);
-  if (!token) {
+  const user = await validateAccessToken(token);
+  if (!user) {
     return {
-      statusCode: 401,
-      body: JSON.stringify({ err: 'User is not logged in.' }),
+      statusCode: 403,
+      body: JSON.stringify({ err: 'Unauthorized' }),
     };
   }
 
@@ -17,7 +18,8 @@ module.exports.handler = async (event) => {
     };
   }
 
-  const { score, name } = JSON.parse(event.body);
+  const { score } = JSON.parse(event.body);
+  const name = user['https://react-netlify-typing-game/username'];
   if (typeof score === 'undefined' || !name) {
     return {
       statusCode: 405,
