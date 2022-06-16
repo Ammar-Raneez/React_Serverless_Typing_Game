@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { StyledButton } from '../styled/Button';
 import {
-  StyledButton,
+  StyledButtonLink,
   StyledLink,
   StyledNavbar,
   StyledNavBrand,
@@ -25,15 +26,15 @@ function Navbar({ toggleTheme }) {
         <li><StyledLink to="/highScores">High Scores</StyledLink></li>
         {!isAuthenticated && (
           <li>
-            <StyledButton onClick={loginWithRedirect}>Login</StyledButton>
+            <StyledButtonLink onClick={loginWithRedirect}>Login</StyledButtonLink>
           </li>
         )}
         {isAuthenticated && (
           <li>
-            <StyledButton onClick={logout}>Logout</StyledButton>
+            <StyledButtonLink onClick={logout}>Logout</StyledButtonLink>
           </li>
         )}
-        <button onClick={toggleTheme}>Toggle Theme</button>
+        <StyledButton onClick={toggleTheme}>Toggle Theme</StyledButton>
       </StyledNavItem>
     </StyledNavbar>
   );
