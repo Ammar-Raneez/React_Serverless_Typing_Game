@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Navbar from './components/Navbar';
+import useTheme from './hooks/useTheme';
 import Game from './pages/Game';
 import GameOver from './pages/GameOver';
 import HighScores from './pages/HighScores';
@@ -14,7 +15,7 @@ import { darkTheme, lightTheme } from './styled/themes';
 function App() {
   const { loading } = useAuth0();
 
-  const theme = 'light';
+  const [theme, toggleTheme] = useTheme();
   const currentTheme = theme === 'light' ? lightTheme : darkTheme;
 
   return (
@@ -25,7 +26,7 @@ function App() {
           {loading && <p>Loading...</p>}
           {!loading && (
             <Container>
-              <Navbar />
+              <Navbar toggleTheme={toggleTheme} />
               <Routes>
                 <Route path="/game" element={<Game />} />
                 <Route path="/highScores" element={<HighScores />} />
