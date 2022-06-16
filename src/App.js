@@ -9,6 +9,7 @@ import HighScores from './pages/HighScores';
 import Home from './pages/Home';
 import { Container } from './styled/Container';
 import Global from './styled/Global';
+import Loader from './styled/Loader';
 import { Main } from './styled/Main';
 import { darkTheme, lightTheme } from './styled/themes';
 
@@ -23,7 +24,11 @@ function App() {
       <ThemeProvider theme={currentTheme}>
         <Global />
         <Main>
-          {loading && <p>Loading...</p>}
+          {loading && (
+            <Loader>
+              <p>Loading...</p>
+            </Loader>
+          )}
           {!loading && (
             <Container>
               <Navbar toggleTheme={toggleTheme} />
